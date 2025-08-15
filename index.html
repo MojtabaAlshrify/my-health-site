@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>عيادتي — موقع صحة أزرق</title>
+  <meta name="description" content="موقع صحة حديث باللون الأزرق — صفحة هبوط تشمل خدمات، أطباء، حجز موعد، مدونة وتواصل." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue-50:#f0f7ff;
+      --blue-100:#e0efff;
+      --blue-200:#cfe6ff;
+      --blue-300:#a6d0ff;
+      --blue-400:#5db5ff;
+      --blue-500:#1e90ff;
+      --blue-600:#1477d6;
+      --blue-700:#0f5ca6;
+      --blue-800:#0a3d6f;
+      --ink:#0b2540;
+      --muted:#6b7c93;
+      --bg:#ffffff;
+      --success:#21c55d;
+      --warning:#f59e0b;
+      --danger:#ef4444;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(2, 48, 71, 0.12);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:'Cairo', system-ui, sans-serif; color:var(--ink); background:linear-gradient(180deg,var(--blue-50),#fff);
+      scroll-behavior:smooth;
+    }
+    a{text-decoration:none; color:inherit}
+    img{max-width:100%; display:block}
+    .container{width:min(1200px, 92%); margin-inline:auto}
+
+    /* Navbar */
+    header{
+      position:sticky; top:0; z-index:1000; backdrop-filter:saturate(180%) blur(10px);
+      background:rgba(255,255,255,.8); border-bottom:1px solid #e6eef8;
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:12px 0}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.25rem; color:var(--blue-700)}
+    .brand .logo{width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg,var(--blue-500),var(--blue-700)); display:grid; place-items:center; color:#fff; box-shadow:var(--shadow)}
+    nav ul{display:flex; gap:22px; list-style:none; margin:0; padding:0}
+    nav a{padding:8px 14px; border-radius:999px; color:#0b2540}
+    nav a:hover{background:var(--blue-100); color:var(--blue-700)}
+    .cta{
+      background:linear-gradient(135deg,var(--blue-600),var(--blue-500)); color:#fff; padding:10px 18px; border-radius:999px; box-shadow:var(--shadow);
+    }
+    .cta:hover{filter:brightness(1.05)}
+    .menu-btn{display:none; background:transparent; border:0; font-size:1.6rem}
+
+    /* Hero */
+    .hero{position:relative; overflow:hidden;}
+    .hero-inner{display:grid; grid-template-columns:1.2fr 1fr; gap:38px; align-items:center; padding:48px 0 24px}
+    .badge{display:inline-flex; align-items:center; gap:8px; background:#e8f3ff; color:var(--blue-700); padding:6px 12px; border-radius:999px; font-weight:700; font-size:.9rem}
+    h1{font-size:clamp(1.8rem, 2.8vw + 1rem, 3.2rem); line-height:1.2; margin:10px 0 18px}
+    .lead{color:#24425f; font-size:1.05rem}
+    .hero-card{background:#fff; border:1px solid #e6eef8; border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
+    .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px}
+    .stat{background:linear-gradient(180deg,#fff,var(--blue-50)); border:1px solid #e6eef8; border-radius:16px; padding:16px; text-align:center}
+    .stat .num{font-size:1.4rem; font-weight:800; color:var(--blue-700)}
+    .hero-ill{
+      position:relative; isolation:isolate;
+    }
+    .bubble{position:absolute; inset:auto; border-radius:50%; filter:blur(24px); opacity:.5}
+    .b1{width:220px; height:220px; right:-40px; top:-30px; background:radial-gradient(circle at 30% 30%, var(--blue-400), transparent 60%)}
+    .b2{width:160px; height:160px; left:10%; bottom:10%; background:radial-gradient(circle at 70% 70%, var(--blue-600), transparent 60%)}
+
+    /* Sections */
+    section{padding:56px 0}
+    .sec-head{display:flex; align-items:end; justify-content:space-between; gap:12px; margin-bottom:24px}
+    .sec-head h2{margin:0; font-size:clamp(1.4rem,1.1rem + 1.2vw,2.2rem)}
+    .muted{color:var(--muted)}
+
+    /* Services */
+    .grid{display:grid; gap:18px}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .card{background:#fff; border:1px solid #e6eef8; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow)}
+    .card h3{margin:8px 0}
+    .icon{
+      width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(135deg,var(--blue-100),#fff); border:1px solid #ddecff; color:var(--blue-700); font-size:1.2rem;
+    }
+
+    /* Doctors */
+    .docs{grid-template-columns:repeat(4,1fr)}
+    .doc{display:flex; flex-direction:column; gap:12px}
+    .doc img{border-radius:16px; aspect-ratio:4/3; object-fit:cover; border:1px solid #e6eef8}
+    .doc small{color:var(--muted)}
+
+    /* Appointment */
+    .app{display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch}
+    form{display:grid; gap:12px}
+    input, select, textarea{
+      padding:12px 14px; border-radius:12px; border:1px solid #d6e6ff; background:#fff; outline:none; font-family:inherit; font-size:1rem
+    }
+    input:focus, select:focus, textarea:focus{border-color:var(--blue-500); box-shadow:0 0 0 4px rgba(30,144,255,.12)}
+    .btn{border:0; padding:12px 16px; border-radius:12px; font-weight:700; cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--blue-600),var(--blue-500)); color:#fff}
+    .note{font-size:.92rem; color:var(--muted)}
+
+    /* Testimonials */
+    .testi{grid-template-columns:repeat(3,1fr)}
+    .quote{display:flex; gap:14px}
+    .quote svg{flex:0 0 auto}
+
+    /* FAQ */
+    .faq .item{border:1px solid #e6eef8; border-radius:14px; padding:14px 16px; background:#fff}
+    .faq .q{display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:pointer}
+    .faq .a{display:grid; grid-template-rows:0fr; transition:grid-template-rows .35s ease;}
+    .faq .a > div{overflow:hidden}
+    .faq .item.open .a{grid-template-rows:1fr}
+
+    /* Blog */
+    .blog{grid-template-columns:repeat(3,1fr)}
+    .post img{border-radius:14px; aspect-ratio:16/9; object-fit:cover; border:1px solid #e6eef8}
+
+    /* Contact */
+    .contact{display:grid; grid-template-columns:1.1fr .9fr; gap:20px}
+    .map{border-radius:16px; overflow:hidden; border:1px solid #e6eef8}
+
+    /* Footer */
+    footer{background:linear-gradient(180deg,#fff,var(--blue-100)); border-top:1px solid #e6eef8; margin-top:32px}
+    .foot{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:18px; padding:32px 0}
+    .foot a{color:#24425f}
+    .copyright{border-top:1px solid #e6eef8; padding:14px 0; color:var(--muted); font-size:.95rem; text-align:center}
+
+    /* Utilities */
+    .pill{display:inline-block; padding:6px 10px; border:1px dashed #b6d4ff; color:var(--blue-700); border-radius:999px; font-size:.85rem}
+    .shadow{box-shadow:var(--shadow)}
+    .hidden{display:none}
+
+    /* Back to top */
+    #toTop{position:fixed; bottom:22px; left:22px; z-index:999; transform:translateY(120%); transition:transform .3s;}
+    #toTop.show{transform:none}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero-inner{grid-template-columns:1fr}
+      .app{grid-template-columns:1fr}
+      .docs{grid-template-columns:repeat(2,1fr)}
+      .testi, .blog{grid-template-columns:1fr 1fr}
+      .contact{grid-template-columns:1fr}
+      .foot{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 680px){
+      nav ul{display:none}
+      .menu-btn{display:block}
+      .grid-3{grid-template-columns:1fr}
+      .docs{grid-template-columns:1fr}
+      .testi, .blog{grid-template-columns:1fr}
+      .foot{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Nav -->
+  <header>
+    <div class="container nav">
+      <a href="#" class="brand" aria-label="العودة للرئيسية">
+        <span class="logo" aria-hidden="true">🩺</span>
+        <span>عيادتي</span>
+      </a>
+      <button class="menu-btn" aria-label="قائمة">☰</button>
+      <nav>
+        <ul>
+          <li><a href="#services">الخدمات</a></li>
+          <li><a href="#doctors">الأطباء</a></li>
+          <li><a href="#appointment">حجز موعد</a></li>
+          <li><a href="#blog">المدونة</a></li>
+          <li><a class="cta" href="#contact">تواصل معنا</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="badge">رعاية تثق بها</span>
+        <h1>صحتك أولاً — رعاية متخصصة بتصميم حديث باللون الأزرق</h1>
+        <p class="lead">نوفّر خدمات طبية شاملة: عيادات تخصصية، فحوصات مخبرية، واستشارات عن بُعد مع أطباء معتمدين. احجز موعدك خلال أقل من دقيقة.</p>
+        <div style="display:flex; gap:10px; margin-top:18px">
+          <a class="cta" href="#appointment">احجز موعدًا الآن</a>
+          <a class="pill" href="#services">تعرّف على خدماتنا</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="num" data-count="35">0</div><div class="muted">تخصصًا طبيًا</div></div>
+          <div class="stat"><div class="num" data-count="120">0</div><div class="muted">طبيبًا معتمدًا</div></div>
+          <div class="stat"><div class="num" data-count="15">0</div><div class="muted">سنة خبرة</div></div>
+        </div>
+      </div>
+      <div class="hero-ill">
+        <div class="hero-card">
+          <h3 style="margin:0 0 10px">فحص سريع</h3>
+          <p class="muted" style="margin:0 0 12px">اختر الأعراض لتحصل على نصيحة عامة — لا تغني عن زيارة الطبيب.</p>
+          <div class="grid grid-3" style="margin-top:8px">
+            <button class="btn" data-symptom="حمّى" style="background:#eef6ff">🤒 حمّى</button>
+            <button class="btn" data-symptom="صداع" style="background:#eef6ff">🤕 صداع</button>
+            <button class="btn" data-symptom="سعال" style="background:#eef6ff">😮‍💨 سعال</button>
+          </div>
+          <p id="triage" class="note" style="margin-top:12px"></p>
+        </div>
+        <span class="bubble b1"></span>
+        <span class="bubble b2"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <div class="sec-head">
+        <h2>خدماتنا الطبية</h2>
+        <p class="muted">حلول شاملة بصبغة زرقاء هادئة</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="icon">🩻</div>
+          <h3>تصوير وتشخيص</h3>
+          <p class="muted">أشعة، سونار، ورنين مغناطيسي بأحدث الأجهزة.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🧪</div>
+          <h3>مختبرات وفحوصات</h3>
+          <p class="muted">تحاليل دم شاملة ونتائج إلكترونية خلال ساعات.</p>
+        </div>
+        <div class="card">
+          <div class="icon">💬</div>
+          <h3>استشارات عن بُعد</h3>
+          <p class="muted">تواصل مع طبيبك عبر الفيديو بكل أمان وخصوصية.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🦷</div>
+          <h3>طب أسنان</h3>
+          <p class="muted">علاج، تبييض، وتقويم بابتسامة مشرقة.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🫀</div>
+          <h3>قلب وأوعية</h3>
+          <p class="muted">متابعة دقيقة لضغط الدم والكوليسترول.</p>
+        </div>
+        <div class="card">
+          <div class="icon">👶</div>
+          <h3>طب الأسرة والأطفال</h3>
+          <p class="muted">رعاية شاملة للأسرة من الولادة حتى الكِبر.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Doctors -->
+  <section id="doctors">
+    <div class="container">
+      <div class="sec-head">
+        <h2>فريق الأطباء</h2>
+        <p class="muted">خبرة، تعاطف، ونتائج موثوقة</p>
+      </div>
+      <div class="grid docs">
+        <article class="doc card">
+          <img src="https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=1200&auto=format&fit=crop" alt="طبيب عام" loading="lazy"/>
+          <div>
+            <strong>د. أحمد السامرائي</strong>
+            <small>طب عام وطب أسرة</small>
+          </div>
+        </article>
+        <article class="doc card">
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1200&auto=format&fit=crop" alt="طبيبة قلب" loading="lazy"/>
+          <div>
+            <strong>د. مريم الجاف</strong>
+            <small>أمراض القلب</small>
+          </div>
+        </article>
+        <article class="doc card">
+          <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1200&auto=format&fit=crop" alt="طبيب أسنان" loading="lazy"/>
+          <div>
+            <strong>د. سيف الجنابي</strong>
+            <small>طب وجراحة الفم والأسنان</small>
+          </div>
+        </article>
+        <article class="doc card">
+          <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1200&auto=format&fit=crop" alt="طبيبة أطفال" loading="lazy"/>
+          <div>
+            <strong>د. نور العزاوي</strong>
+            <small>طب الأطفال</small>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment -->
+  <section id="appointment">
+    <div class="container">
+      <div class="sec-head">
+        <h2>احجز موعدك</h2>
+        <p class="muted">سجّل بياناتك وسيتم التواصل لتأكيد الموعد</p>
+      </div>
+      <div class="app">
+        <form id="bookForm" class="card" novalidate>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+            <div>
+              <label for="name">الاسم الكامل</label>
+              <input id="name" name="name" placeholder="اكتب اسمك" required/>
+            </div>
+            <div>
+              <label for="phone">رقم الهاتف</label>
+              <input id="phone" name="phone" placeholder="07xx xxx xxxx" pattern="^0\d{9,11}$" required/>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+            <div>
+              <label for="dept">التخصص</label>
+              <select id="dept" name="dept" required>
+                <option value="">اختر التخصص</option>
+                <option>طب عام</option>
+                <option>قلب</option>
+                <option>أسنان</option>
+                <option>أطفال</option>
+                <option>جلدية</option>
+              </select>
+            </div>
+            <div>
+              <label for="date">التاريخ</label>
+              <input type="date" id="date" name="date" required />
+            </div>
+          </div>
+          <div>
+            <label for="note">ملاحظة (اختياري)</label>
+            <textarea id="note" rows="3" placeholder="أخبرنا بالمزيد إن رغبت"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">إرسال الطلب</button>
+          <p id="formMsg" class="note"></p>
+        </form>
+        <div class="card shadow" style="background:linear-gradient(180deg,#fff,var(--blue-50))">
+          <h3>ساعات العمل</h3>
+          <ul class="muted" style="line-height:2">
+            <li>السبت – الخميس: 9 صباحًا – 9 مساءً</li>
+            <li>الجمعة: طوارئ فقط</li>
+          </ul>
+          <h3>العنوان</h3>
+          <p class="muted">بغداد – الكرادة، شارع 14 رمضان</p>
+          <h3>رقم الطوارئ</h3>
+          <p class="muted">104 – الإسعاف</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="sec-head">
+        <h2>ماذا يقول مرضانا</h2>
+        <p class="muted">ثقة تستند إلى تجارب حقيقية</p>
+      </div>
+      <div class="grid testi">
+        <div class="card quote">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M7 7h4v4H8v6H4v-6c0-2.761 2.239-5 5-5zm9 0h4v4h-3v6h-4v-6c0-2.761 2.239-5 5-5z" fill="currentColor"/></svg>
+          <div>
+            <p>تعامل راقٍ وسرعة في الحجز. شكراً لكم!</p>
+            <small class="muted">— سارة م.</small>
+          </div>
+        </div>
+        <div class="card quote">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M7 7h4v4H8v6H4v-6c0-2.761 2.239-5 5-5zm9 0h4v4h-3v6h-4v-6c0-2.761 2.239-5 5-5z" fill="currentColor"/></svg>
+          <div>
+            <p>الأطباء محترفون والنتائج واضحة. أوصي بهم.</p>
+            <small class="muted">— علي ك.</small>
+          </div>
+        </div>
+        <div class="card quote">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M7 7h4v4H8v6H4v-6c0-2.761 2.239-5 5-5zm9 0h4v4h-3v6h-4v-6c0-2.761 2.239-5 5-5z" fill="currentColor"/></svg>
+          <div>
+            <p>التطبيق سهل الاستخدام وخدمة العملاء ممتازة.</p>
+            <small class="muted">— زهراء ر.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="sec-head">
+        <h2>الأسئلة الشائعة</h2>
+        <p class="muted">إجابات سريعة على ما يدور في بالك</p>
+      </div>
+      <div class="grid">
+        <div class="faq card">
+          <div class="item">
+            <div class="q"><strong>هل يمكن الحجز أونلاين؟</strong> <span>＋</span></div>
+            <div class="a"><div><p class="muted">نعم، عبر نموذج الحجز أعلاه وسيتم التواصل معك للتأكيد.</p></div></div>
+          </div>
+          <div class="item">
+            <div class="q"><strong>هل الاستشارة عن بُعد بديلة لزيارة الطبيب؟</strong> <span>＋</span></div>
+            <div class="a"><div><p class="muted">لا، هي لتوجيه مبدئي ولا تغني عن التشخيص السريري عند الحاجة.</p></div></div>
+          </div>
+          <div class="item">
+            <div class="q"><strong>كيف أستلم نتائج التحاليل؟</strong> <span>＋</span></div>
+            <div class="a"><div><p class="muted">ستصلك رسالة SMS ورابط لتحميل النتيجة من حسابك.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog">
+    <div class="container">
+      <div class="sec-head">
+        <h2>المدونة الصحية</h2>
+        <p class="muted">نصائح قصيرة للحياة اليومية</p>
+      </div>
+      <div class="grid blog">
+        <article class="post card">
+          <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?q=80&w=1200&auto=format&fit=crop" alt="رياضة صباحية" loading="lazy"/>
+          <h3>ابدأ يومك بالمشي 20 دقيقة</h3>
+          <p class="muted">يساعد على تنشيط القلب وتحسين المزاج وزيادة التركيز.</p>
+          <a class="pill" href="#">اقرأ المزيد</a>
+        </article>
+        <article class="post card">
+          <img src="https://images.unsplash.com/photo-1505577058444-a3dab90d4253?q=80&w=1200&auto=format&fit=crop" alt="أكل صحي" loading="lazy"/>
+          <h3>صحنك أزرق… أكلك أذكى</h3>
+          <p class="muted">الألوان الهادئة قد تقلل الأكل العاطفي وتزيد وعيك بالوجبة.</p>
+          <a class="pill" href="#">اقرأ المزيد</a>
+        </article>
+        <article class="post card">
+          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop" alt="نوم هادئ" loading="lazy"/>
+          <h3>روتين نوم أزرق!</h3>
+          <p class="muted">خفّف الإضاءة واختر ألوانًا باردة لبيئة نوم أفضل.</p>
+          <a class="pill" href="#">اقرأ المزيد</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="sec-head">
+        <h2>تواصل معنا</h2>
+        <p class="muted">نحن هنا لخدمتك</p>
+      </div>
+      <div class="contact">
+        <div class="card">
+          <h3>اترك لنا رسالة</h3>
+          <form id="msgForm" novalidate>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+              <input name="full" placeholder="الاسم الكامل" required/>
+              <input type="email" name="email" placeholder="البريد الإلكتروني" required/>
+            </div>
+            <textarea name="message" rows="4" placeholder="رسالتك" required></textarea>
+            <button class="btn btn-primary">إرسال</button>
+            <p id="msgStatus" class="note"></p>
+          </form>
+        </div>
+        <div class="map">
+          <iframe title="الموقع على الخريطة" src="https://maps.google.com/maps?q=Baghdad&t=&z=12&ie=UTF8&iwloc=&output=embed" width="100%" height="360" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot">
+      <div>
+        <div class="brand" style="margin-bottom:8px"><span class="logo">🩺</span><span>عيادتي</span></div>
+        <p class="muted">رعاية طبية حديثة بلمسة إنسانية وباللون الأزرق الذي يبعث على الطمأنينة.</p>
+      </div>
+      <div>
+        <h4>خدمات</h4>
+        <a href="#services">التشخيص</a><br/>
+        <a href="#services">المختبر</a><br/>
+        <a href="#services">الاستشارات</a>
+      </div>
+      <div>
+        <h4>الشركة</h4>
+        <a href="#">عنّا</a><br/>
+        <a href="#blog">المدونة</a><br/>
+        <a href="#contact">تواصل</a>
+      </div>
+      <div>
+        <h4>سياسات</h4>
+        <a href="#">الخصوصية</a><br/>
+        <a href="#">الشروط</a>
+      </div>
+    </div>
+    <div class="copyright">© <span id="year"></span> عيادتي — جميع الحقوق محفوظة</div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="toTop" class="btn" aria-label="العودة للأعلى">⬆️</button>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.menu-btn');
+    const navList = document.querySelector('nav ul');
+    menuBtn.addEventListener('click', ()=>{
+      const open = getComputedStyle(navList).display !== 'none';
+      navList.style.display = open ? 'none' : 'flex';
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Stats counter on view
+    const counters = document.querySelectorAll('.num');
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          const el = entry.target; const target = +el.dataset.count; let n = 0;
+          const step = Math.ceil(target/60);
+          const t = setInterval(()=>{ n += step; if(n>=target){ n = target; clearInterval(t);} el.textContent = n; }, 20);
+          obs.unobserve(el);
+        }
+      })
+    },{threshold: .4});
+    counters.forEach(c=>obs.observe(c));
+
+    // Simple triage tips (for التثقيف فقط)
+    const tips = {
+      'حمّى':'اشرب سوائل كافية وراقب الحرارة. إن تجاوزت 38.5° أو ظهرت أعراض شديدة، راجع الطبيب فورًا.',
+      'صداع':'خفّف الإضاءة وارتَح. إن كان الصداع جديدًا ومفاجئًا أو مع تشنج/ضعف، توجّه للطوارئ.',
+      'سعال':'أبقِ المكان رطبًا وتجنّب المهيّجات. إن ترافق مع ضيق نفس أو ألم صدر، اطلب تقييمًا سريريًا.'
+    };
+    document.querySelectorAll('[data-symptom]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const k = btn.dataset.symptom; const p = document.getElementById('triage');
+        p.textContent = tips[k] || '';
+      })
+    })
+
+    // Appointment validation (demo only)
+    const f = document.getElementById('bookForm');
+    const msg = document.getElementById('formMsg');
+    f.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if(!f.checkValidity()){
+        msg.textContent = 'تحقق من الحقول، بعض البيانات ناقصة أو غير صحيحة.';
+        msg.style.color = '#b91c1c';
+        f.reportValidity();
+        return;
+      }
+      const data = Object.fromEntries(new FormData(f).entries());
+      localStorage.setItem('appointmentDraft', JSON.stringify(data));
+      msg.textContent = 'تم إرسال طلبك بنجاح! سنعاود الاتصال لتأكيد الموعد.';
+      msg.style.color = '#065f46';
+      f.reset();
+    });
+
+    // FAQ toggle
+    document.querySelectorAll('.faq .item .q').forEach(q=>{
+      q.addEventListener('click',()=> q.parentElement.classList.toggle('open'))
+    })
+
+    // Back to top
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll',()=>{
+      if(window.scrollY>600) toTop.classList.add('show'); else toTop.classList.remove('show');
+    });
+    toTop.addEventListener('click',()=> window.scrollTo({top:0, behavior:'smooth'}));
+  </script>
+</body>
+</html>
